@@ -263,11 +263,13 @@ def filter_stories(stories, triggerlist):
 
     Returns: a list of only the stories for which a trigger in triggerlist fires.
     """
-    # TODO: Problem 10
-    # This is a placeholder
-    # (we're just returning all the stories, with no filtering)
-    return stories
-
+    fires = []
+    for story in stories:
+        for trigger in triggerlist:
+            if trigger.evaluate(story):
+                fires.append(story)
+                break
+    return fires
 
 # ======================
 # User-Specified Triggers
@@ -293,6 +295,14 @@ def read_trigger_config(filename):
     # line is the list of lines that you need to parse and for which you need
     # to build triggers
 
+    trigger_dict = {}
+    trigger_types = {'TITLE': TitleTrigger, 'DESCRIPTION': DescriptionTrigger, 'AFTER': AfterTrigger,
+                     'BEFORE': BeforeTrigger, 'NOT': NotTrigger, 'AND': AndTrigger, 'OR': OrTrigger}
+    for line in lines:
+        line_elements = line.split(',')
+        if not line_elements[0] == 'ADD':
+            if line_elements[1] =
+
     print(lines)  # for now, print it so you see what it contains!
 
 
@@ -303,9 +313,9 @@ def main_thread(master):
     # A sample trigger list - you might need to change the phrases to correspond
     # to what is currently in the news
     try:
-        t1 = TitleTrigger("election")
-        t2 = DescriptionTrigger("Trump")
-        t3 = DescriptionTrigger("Clinton")
+        t1 = TitleTrigger("Trump")
+        t2 = DescriptionTrigger("Pence")
+        t3 = DescriptionTrigger("trouble")
         t4 = AndTrigger(t2, t3)
         triggerlist = [t1, t4]
 
